@@ -111,9 +111,14 @@ h1 {
 
 .message {
   margin-bottom: 8rem;
+  color: #f31559;
   height: 3rem;
 }
 
 .label-score {
   margin-bottom: 2rem;
 }
+
+/* .color-1 {
+  background-color: #42bb5b;
+} */
