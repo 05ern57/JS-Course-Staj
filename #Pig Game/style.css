@@ -113,6 +113,8 @@ main {
   cursor: pointer;
   font-weight: 400;
   transition: all 0.2s;
+  justify-content: ;
+  align-items: 0.2s;
 
   background-color: white;
   background-color: rgba(255, 255, 255, 0.6);
@@ -140,7 +142,7 @@ main {
 }
 
 .btn:active {
-  transform: translate(-50%, 3px);
+  transform: translate(-50%, 100px);
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
 }
 

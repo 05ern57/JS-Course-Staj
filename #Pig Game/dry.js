@@ -71,7 +71,7 @@ function holdScore() {
 
     //2. Check if player's score is >= 100
     //finish the game
-    if (scores[activePlayer] >= 10) {
+    if (scores[activePlayer] >= 100) {
       isGameRemaining = false;
       document.querySelector(`#current--${activePlayer}`).textContent = '0';
       document
