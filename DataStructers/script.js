@@ -1,52 +1,52 @@
 'use strict';
 
-// Data needed for a later exercise
-const flights =
-  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+// // Data needed for a later exercise
+// const flights =
+//   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
-// Data needed for first part of the section
-const restaurant = {
-  name: 'Classico Italiano',
-  location: 'Via Angelo Tavanti 23, Firenze, Italy',
-  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
-  starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
-  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+// // Data needed for first part of the section
+// const restaurant = {
+//   name: 'Classico Italiano',
+//   location: 'Via Angelo Tavanti 23, Firenze, Italy',
+//   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+//   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+//   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-  order: function (sIndex, mIndex) {
-    return [this.starterMenu[sIndex], this.mainMenu[mIndex]];
-  },
+//   order: function (sIndex, mIndex) {
+//     return [this.starterMenu[sIndex], this.mainMenu[mIndex]];
+//   },
 
-  // orderDelivery: function ({ starterIndex, mainIndex, time, address }) {
-  //   console.log(`
-  //   Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}
-  //   `);
-  // },
-  orderDelivery: function ({
-    starterIndex = 0,
-    mainIndex = 1,
-    time = 'in a few hours',
-    address,
-  }) {
-    console.log(`
-    Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}
-    `);
-  },
+//   // orderDelivery: function ({ starterIndex, mainIndex, time, address }) {
+//   //   console.log(`
+//   //   Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}
+//   //   `);
+//   // },
+//   orderDelivery: function ({
+//     starterIndex = 0,
+//     mainIndex = 1,
+//     time = 'in a few hours',
+//     address,
+//   }) {
+//     console.log(`
+//     Order recieved! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}
+//     `);
+//   },
 
-  openingHours: {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, // Open 24 hours
-      close: 24,
-    },
-  },
-};
+//   openingHours: {
+//     thu: {
+//       open: 12,
+//       close: 22,
+//     },
+//     fri: {
+//       open: 11,
+//       close: 23,
+//     },
+//     sat: {
+//       open: 0, // Open 24 hours
+//       close: 24,
+//     },
+//   },
+// };
 
 // const arr = [1, 2, 3, 4, 5];
 
@@ -83,53 +83,53 @@ const restaurant = {
 
 // when we are destructuring object we must enter the exact same key name in curly braces order does not matter bu as i said we must use the axact same key names
 
-const { name, openingHours } = restaurant;
-// console.log(name, openingHours);
+// const { name, openingHours } = restaurant;
+// // console.log(name, openingHours);
 
-// const { thu, fri, sat } = restaurant.openingHours;
-// console.log(thu, fri, sat);
+// // const { thu, fri, sat } = restaurant.openingHours;
+// // console.log(thu, fri, sat);
 
-//if we want to change the key names wile we destructuring we can use this way. With this way we can assign new key names
-let { name: newName, openingHours: opHours } = restaurant;
-console.log(newName, opHours);
+// //if we want to change the key names wile we destructuring we can use this way. With this way we can assign new key names
+// let { name: newName, openingHours: opHours } = restaurant;
+// console.log(newName, opHours);
 
-//we can also set default values to key that doesn't exist
-let { menu = {}, starterMenu: myMenu = {} } = restaurant;
-console.log(menu, myMenu);
+// //we can also set default values to key that doesn't exist
+// let { menu = {}, starterMenu: myMenu = {} } = restaurant;
+// console.log(menu, myMenu);
 
-// while we destructuring we can see the value undefined this happens because of the
+// // while we destructuring we can see the value undefined this happens because of the
 
-//mutating variables
-let a = 1;
-let b = 2;
-const o = { a: 23, b: 7 };
-//{a,b} = o;
-//instead of that use this
-({ a, b } = o); //this 'a' and 'b' is not the object's keys, these are the variables
-console.log(a, b);
+// //mutating variables
+// let a = 1;
+// let b = 2;
+// const o = { a: 23, b: 7 };
+// //{a,b} = o;
+// //instead of that use this
+// ({ a, b } = o); //this 'a' and 'b' is not the object's keys, these are the variables
+// console.log(a, b);
 
-// const { fri } = openingHours;
-// console.log(fri); // {open: 11, close:23}
+// // const { fri } = openingHours;
+// // console.log(fri); // {open: 11, close:23}
 
-const {
-  fri: { open: pop, close: c },
-} = openingHours;
-console.log(pop, c);
+// const {
+//   fri: { open: pop, close: c },
+// } = openingHours;
+// console.log(pop, c);
 
-// we made destructuring while we creating te method function we destructured the paramater
-restaurant.orderDelivery({
-  time: '22.30',
-  address: 'Via del Sole, 21',
-  mainIndex: 2,
-  starterIndex: 2,
-});
-// and at the second step we made default destructuring
-restaurant.orderDelivery({
-  address: 'Via del Sole, 21',
-  mainIndex: 2,
-});
-// Data needed for a later exercise
-// const flights =
+// // we made destructuring while we creating te method function we destructured the paramater
+// restaurant.orderDelivery({
+//   time: '22.30',
+//   address: 'Via del Sole, 21',
+//   mainIndex: 2,
+//   starterIndex: 2,
+// });
+// // and at the second step we made default destructuring
+// restaurant.orderDelivery({
+//   address: 'Via del Sole, 21',
+//   mainIndex: 2,
+// });
+// // Data needed for a later exercise
+// // const flights =
 //   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
 // // Data needed for first part of the section
@@ -349,42 +349,42 @@ restaurant.orderDelivery({
 
 // console.log(as1, as2);
 
-const countries = [
-  'United States',
-  'Canada',
-  'United Kingdom',
-  'Germany',
-  'France',
-  'Italy',
-  'Spain',
-  'China',
-  'Japan',
-  'India',
-  'Australia',
-  'Brazil',
-  'Mexico',
-  'South Africa',
-  'Russia',
-  'Turkey',
-  'South Korea',
-  'Saudi Arabia',
-  'United Arab Emirates',
-  'Egypt',
-  'Nigeria',
-  'Argentina',
-  'Chile',
-  'New Zealand',
-  'Sweden',
-  'Switzerland',
-  'Netherlands',
-  'Belgium',
-  'Norway',
-  'Denmark',
-  'Finland',
-  'Greece',
-  'Austria',
-  'Portugal',
-];
+// const countries = [
+//   'United States',
+//   'Canada',
+//   'United Kingdom',
+//   'Germany',
+//   'France',
+//   'Italy',
+//   'Spain',
+//   'China',
+//   'Japan',
+//   'India',
+//   'Australia',
+//   'Brazil',
+//   'Mexico',
+//   'South Africa',
+//   'Russia',
+//   'Turkey',
+//   'South Korea',
+//   'Saudi Arabia',
+//   'United Arab Emirates',
+//   'Egypt',
+//   'Nigeria',
+//   'Argentina',
+//   'Chile',
+//   'New Zealand',
+//   'Sweden',
+//   'Switzerland',
+//   'Netherlands',
+//   'Belgium',
+//   'Norway',
+//   'Denmark',
+//   'Finland',
+//   'Greece',
+//   'Austria',
+//   'Portugal',
+// ];
 
 // console.log(countries);
 
@@ -526,102 +526,189 @@ const countries = [
 //   console.log(`Can ${key}'imizin plakası ${value}'dır`);
 // }
 
-const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-const openingHours = {
-  [weekdays[3]]: {
-    open: 12,
-    close: 22,
-  },
-  [weekdays[4]]: {
-    open: 11,
-    close: 23,
-  },
-  [`sat`]: {
-    open: 0, // Open 24 hours
-    close: 24,
-  },
-};
+// const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+// const openingHours = {
+//   [weekdays[3]]: {
+//     open: 12,
+//     close: 22,
+//   },
+//   [weekdays[4]]: {
+//     open: 11,
+//     close: 23,
+//   },
+//   [`sat`]: {
+//     open: 0, // Open 24 hours
+//     close: 24,
+//   },
+// };
 
-const sehirler = {
-  Adana: 1,
-  Adıyaman: 2,
-  Afyonkarahisar: 3,
-  Ağrı: 4,
-  Amasya: 5,
-  Ankara: 6,
-  Antalya: 7,
-  Artvin: 8,
-  Aydın: 9,
-  Balıkesir: 10,
-  Bilecik: 11,
-  Bingöl: 12,
-  Bitlis: 13,
-  Bolu: 14,
-  Burdur: 15,
-  Bursa: 16,
-  Çanakkale: 17,
-  Çankırı: 18,
-  Çorum: 19,
-  Denizli: 20,
-  // Diğer şehirler burada eklenebilir...
-};
+// const sehirler = {
+//   Adana: 1,
+//   Adıyaman: 2,
+//   Afyonkarahisar: 3,
+//   Ağrı: 4,
+//   Amasya: 5,
+//   Ankara: 6,
+//   Antalya: 7,
+//   Artvin: 8,
+//   Aydın: 9,
+//   Balıkesir: 10,
+//   Bilecik: 11,
+//   Bingöl: 12,
+//   Bitlis: 13,
+//   Bolu: 14,
+//   Burdur: 15,
+//   Bursa: 16,
+//   Çanakkale: 17,
+//   Çankırı: 18,
+//   Çorum: 19,
+//   Denizli: 20,
+//   // Diğer şehirler burada eklenebilir...
+// };
 
-// we can simply use loop over object by using in keyword when we use in a hold the same key name so with this we are loging console to string basically
-//we can also reach the values
-for (let a in sehirler) {
-  console.log(a, sehirler[a]);
-}
+// // we can simply use loop over object by using in keyword when we use in a hold the same key name so with this we are loging console to string basically
+// //we can also reach the values
+// for (let a in sehirler) {
+//   console.log(a, sehirler[a]);
+// }
 
-let deneme = Object.entries(weekdays); // when we give array as a parameter to 'Object.entries()' it returns index number of values as a key's value
-console.log(deneme);
-let deneme1 = Object.entries(openingHours); // when we give object than it gives us an array with key's value and normal value  [[key,value], [secondKey,secondValue], [thirdKey,ThirdValue]]
-console.log(deneme1);
-let deneme2 = Object.entries(sehirler); // it is another object example
-console.log(deneme2);
+// let deneme = Object.entries(weekdays); // when we give array as a parameter to 'Object.entries()' it returns index number of values as a key's value
+// console.log(deneme);
+// let deneme1 = Object.entries(openingHours); // when we give object than it gives us an array with key's value and normal value  [[key,value], [secondKey,secondValue], [thirdKey,ThirdValue]]
+// console.log(deneme1);
+// let deneme2 = Object.entries(sehirler); // it is another object example
+// console.log(deneme2);
 
-for (let [key, value] of deneme2) {
-  //[[key,value], [secondKey,secondValue]]
-  //of operator returns array that has two arrays, so we just destructured the array
-  //then used value by value
-  console.log(`Can ${key}'imizin plakası ${value}'dır`);
-}
+// for (let [key, value] of deneme2) {
+//   //[[key,value], [secondKey,secondValue]]
+//   //of operator returns array that has two arrays, so we just destructured the array
+//   //then used value by value
+//   console.log(`Can ${key}'imizin plakası ${value}'dır`);
+// }
 
-let dene = Object.keys(sehirler); //Object keys just returns a values that has key values, so in this case we will get an array that consist city names
-console.log(dene);
+// let dene = Object.keys(sehirler); //Object keys just returns a values that has key values, so in this case we will get an array that consist city names
+// console.log(dene);
 
-let plakalar = Object.values(sehirler);
-console.log(plakalar);
+// let plakalar = Object.values(sehirler);
+// console.log(plakalar);
 
-const cities = [
-  { city: 'Adana', plateNumber: 1 },
-  { city: 'Adıyaman', plateNumber: 2 },
-  { city: 'Afyonkarahisar', plateNumber: 3 },
-  { city: 'Ağrı', plateNumber: 4 },
-  { city: 'Amasya', plateNumber: 5 },
-  { city: 'Ankara', plateNumber: 6 },
-  { city: 'Antalya', plateNumber: 7 },
-  { city: 'Artvin', plateNumber: 8 },
-  { city: 'Aydın', plateNumber: 9 },
-  { city: 'Balıkesir', plateNumber: 10 },
-  { city: 'Bilecik', plateNumber: 11 },
-  { city: 'Bingöl', plateNumber: 12 },
-  { city: 'Bitlis', plateNumber: 13 },
-  { city: 'Bolu', plateNumber: 14 },
-  { city: 'Burdur', plateNumber: 15 },
-  { city: 'Bursa', plateNumber: 16 },
-  { city: 'Çanakkale', plateNumber: 17 },
-  { city: 'Çankırı', plateNumber: 18 },
-  { city: 'Çorum', plateNumber: 19 },
-  { city: 'Denizli', plateNumber: 20 },
-  // Diğer şehirler burada eklenebilir...
-];
-let a = [];
-for (let x of cities) {
-  let [bir, iki] = Object.entries(x);
-  a.push(bir, iki);
-}
-console.log(a);
+// const cities = [
+//   { city: 'Adana', plateNumber: 1 },
+//   { city: 'Adıyaman', plateNumber: 2 },
+//   { city: 'Afyonkarahisar', plateNumber: 3 },
+//   { city: 'Ağrı', plateNumber: 4 },
+//   { city: 'Amasya', plateNumber: 5 },
+//   { city: 'Ankara', plateNumber: 6 },
+//   { city: 'Antalya', plateNumber: 7 },
+//   { city: 'Artvin', plateNumber: 8 },
+//   { city: 'Aydın', plateNumber: 9 },
+//   { city: 'Balıkesir', plateNumber: 10 },
+//   { city: 'Bilecik', plateNumber: 11 },
+//   { city: 'Bingöl', plateNumber: 12 },
+//   { city: 'Bitlis', plateNumber: 13 },
+//   { city: 'Bolu', plateNumber: 14 },
+//   { city: 'Burdur', plateNumber: 15 },
+//   { city: 'Bursa', plateNumber: 16 },
+//   { city: 'Çanakkale', plateNumber: 17 },
+//   { city: 'Çankırı', plateNumber: 18 },
+//   { city: 'Çorum', plateNumber: 19 },
+//   { city: 'Denizli', plateNumber: 20 },
+//   // Diğer şehirler burada eklenebilir...
+// ];
+// let a = [];
+// for (let x of cities) {
+//   let [bir, iki] = Object.entries(x);
+//   a.push(bir, iki);
+// }
+// console.log(a);
 
-for (let [key, value] of a) {
-  console.log(key, value);
-}
+// for (let [key, value] of a) {
+//   console.log(key, value);
+// }
+
+// // we can pass irretables to Set as a parameter
+// const mySet = new Set('Eren');
+// console.log(mySet);
+
+// const set_1 = new Set(['Eren', 'Eren', 123, 1323, true, false, true]);
+// console.log(set_1);
+
+// set_1.add('newOne');
+// set_1.delete('Eren');
+// console.log(set_1.has('Eren')); // it is exactly like includes
+// console.log(set_1.has(true));
+// console.log(set_1);
+// //set_1.clear(); // it makes emptys a Set
+// console.log(set_1);
+
+// // we can loop a Set
+// for (const el of set_1) console.log(el);
+// // we can not call an element of an array by brackets like this set_1[1] but we can spred set to an array and use like that
+
+// // we  can use Set for filtering and assigning an array like this:
+
+// const staff = ['Waiter', 'Chef', 'Costumer', 'Chef', 'Waiter'];
+
+// const filtered = [...new Set(staff)];
+// console.log(staff);
+// console.log(filtered);
+
+// //to see the length of a Set we use size keyword
+
+// console.log(set_1.size);
+
+// const rest = new Map();
+// rest.set('name', 'Classico Italiano');
+// console.log(rest.get('name'));
+
+// rest
+//   .set('malibu', ['hepimiz', 'ayniyiz'])
+//   .set('irkcilik', 'yapmayın')
+//   .set('lütfen', ['bizden', 'korkmayın']) // herbir set metodu yeni bir eleman set diyerek map'e yeni eleman ekliyoruz
+//   .set({ name: 'sen kimsin', wolo: 'loooooo' }, 'Bilmemmmm');
+// console.log(rest);
+// console.log(rest.get({ name: 'sen kimsin', wolo: 'loooooo' }));
+
+// console.log(rest.has('malibu'));
+
+// rest.delete('malibu');
+// console.log(rest.has('malibu'));
+// rest.clear();
+// console.log(rest);
+// const questions = new Map([
+//   ['hello', 'whatsapp'],
+//   ['yooo', 'checkitout'],
+//   ['cmon', 'asdasdasd'],
+// ]);
+
+// const gameEvents = new Map([
+//   [17, '⚽ GOAL'],
+//   [36, '� Substitution'],
+//   [47, '⚽ GOAL'],
+//   [61, '� Substitution'],
+//   [64, '� Yellow card'],
+//   [69, '� Red card'],
+//   [70, '� Substitution'],
+//   [72, '� Substitution'],
+//   [76, '⚽ GOAL'],
+//   [80, '⚽ GOAL'],
+//   [92, '� Yellow card'],
+// ]);
+
+// const events = ['Nw Bilim 1', 'Nw Bilim 2', 'Nw Bilim 3', 'Nw Bilim 4'];
+
+// console.log(gameEvents.get(64));
+// gameEvents.delete(64);
+// console.log(gameEvents.get(64));
+// console.log(
+//   `An event happened,on avarage, every ${Math.trunc(
+//     90 / gameEvents.size
+//   )} munites`
+// );
+
+// for (let [i, j] of gameEvents) {
+//   console.log(`[${i < 45 ? 'FIRST ' : 'SECOND '}HALF] ${i} : ${j}`);
+// }
+
+// const ne = [...gameEvents.keys()].pop();
+// console.log(ne);
