@@ -255,20 +255,20 @@
 
 // I will repeat this for understanding the inheritence of constructer functions
 // ----------------
-const PersonProto = {
-  clacAge() {
-    console.log(2023 - this.birthYear);
-  },
+// const PersonProto = {
+//   clacAge() {
+//     console.log(2023 - this.birthYear);
+//   },
 
-  init(firstName, birthYear) {
-    this.firstName = firstName;
-    this.birthYear = birthYear;
-  },
-};
-const keko = Object.create(PersonProto); // we manually matched the prototype of keko
-keko.init('Mo Ali', 1933);
-keko.firstName = 'Mouham';
-console.log(keko.firstName);
+//   init(firstName, birthYear) {
+//     this.firstName = firstName;
+//     this.birthYear = birthYear;
+//   },
+// };
+// const keko = Object.create(PersonProto); // we manually matched the prototype of keko
+// keko.init('Mo Ali', 1933);
+// keko.firstName = 'Mouham';
+// console.log(keko.firstName);
 
 // -------------------
 // // when we use Object.create() we manualy match the prototype of the object
@@ -287,29 +287,29 @@ console.log(keko.firstName);
 // sarah.calcAge();
 
 // Challange #2
-// class CarCl {
-//   constructor(make, speed) {
-//     this.make = make;
-//     this.speed = speed;
-//   }
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
 
-//   accelerate() {
-//     console.log(`${this.make} is moving ${(this.speed += 10)} km per hour`);
-//   }
+  accelerate() {
+    console.log(`${this.make} is moving ${(this.speed += 10)} km per hour`);
+  }
 
-//   brake() {
-//     console.log(`${this.make} is moving ${(this.speed -= 5)} km per hour`);
-//   }
+  brake() {
+    console.log(`${this.make} is moving ${(this.speed -= 5)} km per hour`);
+  }
 
-//   get speedUS() {
-//     return this.speed / 1.6;
-//   }
+  get speedUS() {
+    return this.speed / 1.6;
+  }
 
-//   set speedUS(mph) {
-//     const converted = mph * 1.6;
-//     this.speed = converted;
-//   }
-// }
+  set speedUS(mph) {
+    const converted = mph * 1.6;
+    this.speed = converted;
+  }
+}
 
 // const ford = new CarCl('Ford', 120);
 // ford.accelerate();
@@ -330,32 +330,348 @@ console.log(keko.firstName);
 // // after we logged object to the console if we accelerate or break object's speed also would change but we can only see when we look details
 // bmw.accelerate();
 
-const Person = function (firstName, birthYear) {
-  this.firstName = firstName;
-  this.birthYear = birthYear;
-};
+// const Person = function (firstName, birthYear) {
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+// };
 
-Person.prototype.calcAge = function () {
-  console.log(2037 - this.birthYear);
-};
+// Person.prototype.calcAge = function () {
+//   console.log(2037 - this.birthYear);
+// };
 
-const Student = function (firstName, birthYear, course) {
-  // this.firstName = firstName;
-  // this.birthYear = birthYear;
-  Person.call(this, firstName, birthYear);
-  this.course = course;
-};
+// const Student = function (firstName, birthYear, course) {
+//   // this.firstName = firstName;
+//   // this.birthYear = birthYear;
+//   Person.call(this, firstName, birthYear);
+//   this.course = course;
+// };
 
-Student.prototype = Object.create(Person.prototype);
+// Student.prototype = Object.create(Person.prototype);
+// // we should write this code right after the constructor function because  if write this code after adding introduce function to prototype, we could override the method if  Person constructer also has the same function from itself or its prototype
 
-Student.prototype.introduce = function () {
-  console.log();
-};
+// Student.prototype.introduce =  function () {
+//   console.log(`Hi my name is ${this.firstName} and i am yearsold. Also  i am a ${this.course}`);
+// }
 
-const mike = new Student('Mike Tyson', 1967, 'Boxing');
-console.log(mike);
-console.log(mike.__proto__.__proto__.__proto__);
-console.log(mike.__proto__.__proto__);
-console.log(mike.__proto__);
-console.log(Student.prototype);
-console.log(Student.prototype);
+// const mike = new Student('Mike', 1996, 'boxer')
+// mike.introduce();
+// // mike.calcAge();
+
+// console.log(mike);
+// // in our console we can see mike's prototype is set as Person we can easily change this
+// Student.prototype.constructor = Student;
+// // console.dir(Student);
+
+// console.log(mike.__proto__);
+// console.log(Student.prototype.__proto__);
+
+// console.log(mike.__proto__.__proto__);
+// console.log(Person.prototype);
+
+// console.log(Object.prototype);
+// console.log(mike.__proto__.__proto__.__proto__);
+// console.log(mike instanceof Person);
+// console.log(mike instanceof Student);
+
+// console.log(mike.__proto__ == Person.prototype);
+
+// const tesla = new EV('Tesla', 120, 23);
+// console.log(tesla);
+// // when we look at the console of out website you will see mike object like this
+// // EV {make: 'Tesla', speed: 120, charge: 23}
+// // charge: 23
+// // make: "Tesla"
+// // speed: 115
+// // [[Prototype]]: Car
+// // the reson why last line set as Car is js's console is set the name by looking for the nearest constructer function. So it must be EV right.
+// // However when you examine(incelemek) objects in js console it often displays  the name of the constructor function of the nearest  prototype in the chain
+// console.log(tesla.__proto__);
+
+// console.log(Car.prototype);
+// console.log(tesla.__proto__.__proto__);
+
+// console.log(tesla.__proto__ === EV.prototype);
+// console.log(Car.prototype);
+
+// // tesla.accelerate();
+// // console.log(tesla.chargeBattery(95));
+// tesla.brake();
+
+// class PersonCl {
+//   constructor(fullName, birthYear) {
+//     this.fullName = fullName;
+//     this.birthYear = birthYear;
+//   }
+
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   }
+
+//   greet() {
+//     console.log(`Hey ${this.fullName}`);
+//   }
+
+//   get age() {
+//     return 2037 - this.birthYear;
+//   }
+
+//   set fullName(name) {
+//     if (name.includes(' ')) this._fullName = name;
+//     else alert(`${name} is not a full name!`);
+//   }
+
+//   get fullName() {
+//     return this._fullName;
+//   }
+
+//   // Static Method
+//   static hey() {
+//     console.log('Hey there');
+//   }
+// }
+
+// class StudentCl extends PersonCl {
+//   // if you wont add new proprties you can simply pass the arguments into super constructor
+//   constructor(fullName, birthYear, course) {
+//     // if we don't call super first PersonCl constructor this keyword's referance would change
+//     super(fullName, birthYear);
+//     // we must call the super function first for binding of this keyword
+//     this.course = course;
+//   }
+
+//   introduce() {
+//     console.log(
+//       `My name is ${this.fullName} and i am ${this.calcAge()} years old!`
+//     );
+//   }
+
+//   calcAge() {
+//     console.log(
+//       `I'm ${
+//         2037 - this.birthYear
+//       } years old, but as a student I feel more like ${
+//         2047 - this.birthYear + 10
+//       }`
+//     );
+//   }
+// }
+
+// const martha = new StudentCl('Martha Jones', 2012);
+// console.log(martha);
+// martha.introduce();
+// martha.calcAge();
+// console.log(martha.fullName);
+
+// const PersonProto = {
+//   calcAge() {
+//     console.log(2037 - this.birthYear);
+//   },
+
+//   init(firstName, birthYear) {
+//     this.firstName = firstName;
+//     this.birthYear = birthYear;
+//   },
+// };
+
+// const steven = Object.create(PersonProto);
+// steven.init('Joe Mama', 1987);
+// const StudentProto = Object.create(PersonProto);
+// // the reason why we don't write '.prototype' is because we adding the function directly to prototype
+// StudentProto.init = function (firstName, birthYear, course) {
+//   PersonProto.init.call(this, firstName, birthYear);
+//   this.course = course;
+// };
+
+// StudentProto.introduce = function () {
+//   console.log(`My name is  ${this.firstName} and i study ${this.course}`);
+// };
+
+// const jay = Object.create(StudentProto);
+// jay.init('Jay', 2010, 'boxer');
+// jay.introduce();
+// jay.calcAge();
+// console.log(jay);
+// console.log(steven);
+
+// class Account {
+//   constructor(owner, currency, pin) {
+//     this.owner = owner;
+//     this.currency = currency;
+
+//     // when we want to protect a property we simply add '_' before the property it's not truely private, just an convention.
+//     this._pin = pin;
+//     // we can add set values without more arguments
+//     this._movements = [];
+//     this._locale = navigator.language;
+
+//     console.log(`Thanks for opening na account, ${owner}`);
+//   }
+
+//   // Public Interface
+
+//   getMovements() {
+//     return this._movements;
+//   }
+
+//   deposit(val) {
+//     this._movements.push(val);
+//   }
+//   withdraw(val) {
+//     this.deposit(-val);
+//   }
+
+//   _approveLoan(val) {
+//     return true;
+//   }
+
+//   requestLoan(val) {
+//     if (this.approveLoan(val)) this.deposit(val);
+//     console.log(`Loan Approved`);
+//   }
+// }
+
+// const acc1 = new Account('Jonas', 'EUR', 1111);
+// console.log(acc1);
+// // acc1.movements.push(250); // we can add deposits
+// // acc1.movements.push(-350); // also widthrawals
+// acc1.deposit(250);
+// acc1.withdraw(550);
+
+// acc1.requestLoan(1000);
+// console.log(acc1.approveLoan());
+
+// console.log(acc1);
+// console.log(acc1.pin);
+
+// console.log(acc1.getMovements());
+
+//   ENCAPSULATİON İN JS   //
+
+//  1) Public Fields
+//  2) Private Fields
+//  3) Public Methods
+//  4) Private Fields
+
+// class Account {
+//   // !!! filed won't be on the prototypes like functions it will be on the instances
+
+//   // 1) Public Fields
+//   locale = navigator.language;
+
+//   // 2) Private Fields
+//   #movements = [];
+//   // with '#' the porperty is finaly portected
+//   #pin;
+
+//   constructor(owner, currency, pin) {
+//     this.owner = owner;
+//     this.currency = currency;
+//     // when we want to set a private field in constructor function we need create upside first then we can redifine with the construtor
+//     this.#pin = pin;
+//   }
+
+//   // 3)Public Methods
+
+//   // Public Interface
+//   getMovements() {
+//     return this.#movements;
+//   }
+
+//   deposit(val) {
+//     this.#movements.push(val);
+//     return this;
+//     // we are returned the object because when we want to chain methods we need the object to remain using functions
+//   }
+
+//   widthraw(val) {
+//     this.deposit(-val);
+//     return this;
+//   }
+
+//   requestLoan(val) {
+//     if (this.#approveLoan(val)) {
+//       console.log('Loan Approved');
+//       return this.deposit(val);
+//     }
+//   }
+
+//   // 4) Private Methods
+//   // when we look at our object adem in console we can see a property called Private methods and js is basically creates this function inside of that property
+//   #approveLoan(val) {
+//     return true;
+//   }
+// }
+
+// const adem = new Account('Adem', 'TR', 1111);
+// console.log(adem);
+// // console.log(adem.#movements);
+
+// // console.log(adem.#pin);
+// // console.log(adem.reuqestLoan(560));
+
+// // Chaining Methods
+// adem.deposit(500).deposit(300).widthraw(200).requestLoan(700).requestLoan(3000);
+// // this won't work because this functon returns nothing
+// console.log(adem);
+// console.log(adem.getMovements());
+
+// const EV = function (make, speed, charge) {
+//   Car.call(this, make ,speed);
+//   this.charge = charge;
+// }
+
+// EV.prototype = Object.create(Car.prototype);
+// // with this code we set EV.prototype's prtotype as Car.prototype so we simply inherit Car's prototype
+
+// EV.prototype.chargeBattery = function(chargeTo) {
+//   this.charge = chargeTo ;
+// }
+
+// EV.prototype.accelerate = function () {
+//   this.speed += 20;
+//   this.charge --;
+//   console.log(`${this.make} going at ${this.speed}
+//   km/h, with a charge of ${this.charge}%`);
+// };
+
+class EVCl extends CarCl {
+  #charge;
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+
+  accelerate() {
+    this.speed += 20;
+    this.#charge--;
+    console.log(
+      `${this.make} going at ${this.speed} km/h, with a charge of ${this.charge}`
+    );
+    return this;
+  }
+  brake() {
+    this.speed -= 5;
+    this.#charge++;
+    console.log(
+      `${this.make} going at ${this.speed} km/h, with a charge of ${this.charge}`
+    );
+    return this;
+  }
+}
+
+const riv = new EVCl('Rivian', 120, 23);
+console.log(riv);
+riv
+  .accelerate()
+  .accelerate()
+  .brake()
+  .brake()
+  .chargeBattery(55)
+  .chargeBattery(75);
+console.log(riv);
+console.log(riv.speedUS);
