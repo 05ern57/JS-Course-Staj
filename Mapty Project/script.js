@@ -1,8 +1,5 @@
 'use strict';
 
-// prettier-ignore
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -204,11 +201,22 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
+  clicks = 0;
 
   constructor(coords, distance, duration) {
     this.coords = coords;
     this.distance = distance;
     this.duration = duration;
+    // we can not call the _setDescription() method at this line because we need 'type' to implement the function so we will call this function at subclasses (porototypal inheritance)
+  }
+
+  _setDescription() {
+    // prettier-ignore
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
+      months[this.date.getMonth()]
+    } ${this.date.getDate()}`;
   }
 }
 
@@ -218,11 +226,14 @@ class Running extends Workout {
     super(coords, distance, duration);
     this.cadence = cadence;
     this.calcPace();
+    this._setDescription();
   }
 
   calcPace() {
     // min/km
     this.pace = this.duration / this.distance;
+    this.pace.toFixed(1);
+    console.log(this.pace);
     return this.pace;
   }
 }
@@ -233,11 +244,14 @@ class Cycling extends Workout {
     super(coords, distance, duration);
     this.elevationGain = elevationGain;
     this.calcSpeed();
+    this._setDescription();
   }
 
   calcSpeed() {
     // km/h
     this.speed = this.distance / (this.duration / 60);
+    this.speed.toFixed(1);
+    console.log(this.speed);
     return this.speed;
   }
 }
@@ -247,12 +261,17 @@ class Cycling extends Workout {
 class App {
   #map;
   #mapEvent;
+  #mapZoom = 15;
   #workouts = [];
 
   constructor() {
     this._getPosition();
+
+    this._getLocalStorage();
+
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   _getPosition() {
@@ -275,7 +294,7 @@ class App {
 
     const coords = [latitude, longitude];
 
-    this.#map = L.map('map').setView(coords, 15);
+    this.#map = L.map('map').setView(coords, this.#mapZoom);
 
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       attribution:
@@ -284,13 +303,36 @@ class App {
 
     // Idk why but map events doesn't work from other place that the map is created
     this.#map.on('click', this._showForm.bind(this));
+
+    // we rendered markers here because when we call this method map is not been directly loaded it an async proccess.that means wile js trying to render workout markers, the map may not be loaded maybe its still loading the map and with this js may not have the map to render the markers.
+    // this may not be true but i think the process is like this. first we create the map object and with the js calls the constructor method right after that and the methods in the constructor they are being called and implementation of _getPosition lasts more than _getLoacalStorage so the markers are not being rendered
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapE) {
     // we used mapE because it is like event parameter but for map's functionlatity
     this.#mapEvent = mapE;
-    form.classList.remove('hidden');
+    form.classList.add('hidden');
+    setTimeout(() => form.classList.remove('hidden'), 100);
     inputDistance.focus();
+  }
+
+  _hideForm() {
+    // Clearing the input fields
+    inputDistance.value =
+      inputDuration.value =
+      inputCadence.value =
+      inputElevation.value =
+        '';
+
+    form.style.display = 'none';
+    form.classList.add('hidden');
+
+    setTimeout(() => {
+      form.style.display = 'grid';
+    }, 1000);
   }
 
   _toggleElevationField() {
@@ -360,29 +402,28 @@ class App {
     console.log(workout);
 
     // *-Render workout on map as a marker
-    this.renderWorkoutMarker(workout);
-
-    // Clearing the input fields
-    inputDistance.value =
-      inputDuration.value =
-      inputCadence.value =
-      inputElevation.value =
-        '';
+    this._renderWorkoutMarker(workout);
 
     // Display marker
     // console.log(this.#mapEvent);
 
     // *-Render workout on list
-
+    this._renderWorkout(workout);
     // *-Hide form on list and clear inputs
+    this._hideForm();
+
+    // Set local Storage to all workouts
+    this._setLocalStorage();
   }
 
-  renderWorkoutMarker(workout) {
+  _renderWorkoutMarker(workout) {
     L.marker(workout.coords)
       .addTo(this.#map)
       .bindPopup(
         L.popup({
-          content: `you went ${workout.distance}`,
+          content: `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${
+            workout.description
+          }`,
           maxWidth: 250,
           minWidth: 100,
           autoClose: false,
@@ -391,6 +432,86 @@ class App {
         })
       )
       .openPopup();
+  }
+
+  _renderWorkout(workout) {
+    const filter = workout.type === 'running';
+    const html = `
+      <li class="workout workout--${workout.type}" data-id="${workout.id}">
+        <h2 class="workout__title">${workout.description}</h2>
+        <div class="workout__details">
+          <span class="workout__icon">${filter ? '🏃‍♂️' : '🚴‍♀️'}</span>
+          <span class="workout__value">${workout.distance}</span>
+          <span class="workout__unit">km</span>
+        </div>
+        <div class="workout__details">
+          <span class="workout__icon">⏱</span>
+          <span class="workout__value">${workout.duration}</span>
+          <span class="workout__unit">min</span>
+        </div>
+        <div class="workout__details">
+          <span class="workout__icon">⚡️</span>
+          <span class="workout__value">${
+            filter ? workout.pace : workout.speed
+          }</span>
+          <span class="workout__unit">${filter ? 'min/km' : 'km/h'}</span>
+          
+        </div>
+        <div class="workout__details">
+          <span class="workout__icon">${filter ? '🦶🏼' : '⛰'}</span>
+          <span class="workout__value">${
+            filter ? workout.cadence : workout.elevationGain
+          }</span>
+          <span class="workout__unit">${filter ? 'spm' : 'm'}</span>        
+        </div>
+      </li>
+    `;
+
+    form.insertAdjacentHTML('afterend', html);
+  }
+
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest('.workout');
+    if (!workoutEl) return;
+
+    console.log(workoutEl);
+
+    const workout = this.#workouts.find(
+      workout => workout.id === workoutEl.dataset.id
+    );
+    this.#map.setView(workout.coords, this.#mapZoom, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+    console.log(workout);
+    // workout.clicks++;
+  }
+
+  _setLocalStorage() {
+    // local storage keeps informations as key value couples and string values
+    // workouts will be our keys and workouts array will be our value and we are converting object to string by using JSON.stringify()
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+
+    // we can only set string boolean and numbers to browsers local storage so when we want to set JSON data to local storage prototypes are not being stored
+  }
+
+  _getLocalStorage() {
+    // also whenever we want to get the information from local storage we will get the information as string value and we to convert that string we use JSON.parse()
+    const data = JSON.parse(localStorage.getItem('workouts'));
+    console.log(data);
+
+    if (!data) return;
+
+    this.#workouts = data;
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+  reset() {
+    localStorage.removeItem('workouts');
+    location.reload;
   }
 }
 
