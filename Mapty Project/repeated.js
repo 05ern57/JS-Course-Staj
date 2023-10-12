@@ -73,6 +73,7 @@ class App {
 
     form.addEventListener('submit', this._newWorkout.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+    this._getLocalStorage();
   }
 
   _getPosition() {
@@ -101,10 +102,15 @@ class App {
 
     // we can not use mapEvents outside of the where map been created
     this.#map.on('click', this._showForm.bind(this));
+
+    // we added to _renderworkout method here because when we want to render workout from _getLocalStorage and call it from the constructor it doesn't work because of 'async js' topic i guess i will understand why that wont work after i listen async topic :)
+    this.#workouts.forEach(work => this._renderWorkoutMarker(work));
   }
 
   _showForm(mapE) {
     // showing the form everytime when the click happens
+    this.clearInputFields();
+
     this.#mapEvent = mapE;
     console.log(this.#mapEvent);
     form.classList.add('hidden');
@@ -128,11 +134,7 @@ class App {
 
   _hideForm() {
     // cleaning the form
-    inputDistance.value =
-      inputDuration.value =
-      inputCadence.value =
-      inputElevation.value =
-        '';
+    this.clearInputFields();
 
     // hiding the form
     form.classList.add('hidden');
@@ -201,6 +203,9 @@ class App {
 
     // Hiding and cleaning the form the from
     this._hideForm();
+
+    // Setting Local Storage
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -260,11 +265,45 @@ class App {
   }
 
   _moveToPopup(e) {
-    if (!e.target.closest('.workout')) return;
-    const li = e.target.closest('.workout');
+    const workoutEl = e.target.closest('.workout');
+    if (!workoutEl) return;
+
     // console.log(li.dataset.id);
-    const obj = this.#workouts.find(work => work.id === Number(li.dataset.id));
-    console.log(obj);
+    const workout = this.#workouts.find(
+      work => work.id === Number(workoutEl.dataset.id)
+    );
+
+    // pan animation wont working if you set the zoom parameter isn't same with the current zoom if you want to solve this first you should get the current zoom knowladge
+    const currentZoom = this.#map.getZoom();
+
+    this.#map.setView(workout.coords, currentZoom, {
+      animate: true,
+      pan: {
+        animate: true,
+        duration: 2,
+      },
+    });
+  }
+
+  clearInputFields() {
+    inputDistance.value =
+      inputDuration.value =
+      inputCadence.value =
+      inputElevation.value =
+        '';
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+
+    if (!data) return;
+
+    this.#workouts = data;
+    this.#workouts.forEach(work => this._renderWorkout(work));
   }
 }
 
